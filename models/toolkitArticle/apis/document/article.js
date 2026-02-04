@@ -1,0 +1,195 @@
+module.exports = {
+    _id: '$data._id',
+    title: '$data.title',
+    resourceType: '$data.resourceType',
+    updateFlag: '$data.updateFlag',
+    flagNote: '$data.flagNote',
+    articleStatus: '$data.articleStatus',
+    topics: '$data.topics',
+    subResource: '$data.subResource',
+    subResourceType: '$data.subResourceType',
+    description: '$data.description',
+    abstract: '$data.abstract',
+    descriptionText: '$data.descriptionText',
+    abstractText: '$data.abstractText',
+    keywords: '$data.keywords',
+    thumbnailId: '$data.thumbnailId',
+    practices: '$data.practices',
+    practiceIds: {
+        from: 'HUB',
+        request: {
+            model: 'com.hub365.practices.models.Practice',
+            type: 'query',
+            query: 'FetchPracticesUsingIds',
+            arguments: {
+                ids: '$data.document.practiceIds',
+            },
+            resolve: {
+                _id: true,
+                name: true,
+            },
+        },
+        value: '$data',
+    },
+    isGeneral: '$data.isGeneral',
+    isPinned: '$data.isPinned',
+    miroLink: '$data.miroLink',
+    issuuLink: '$data.issuuLink',
+    contributorIds: '$data.contributors',
+    contributors: {
+        from: 'HUB',
+        request: {
+            model: 'com.hub365.people.models.People',
+            type: 'query',
+            query: 'FetchPeopleUsingIds',
+            arguments: {
+                ids: '$data.document.contributors',
+            },
+            resolve: {
+                _id: true,
+                name: true,
+                avatarId: true,
+                title: true,
+                primaryEmail: true,
+                officeId: true,
+                office: true,
+            },
+        },
+        value: '$data',
+    },
+    originalLink: {
+        from: 'HUB',
+        request: {
+            model: 'com.hub365.marketingtoolkitadmin.models.ToolkitLink',
+            type: 'query',
+            query: 'ToolkitLinks',
+            arguments: {
+                articleId: '$data.document._id',
+                linkType: 'original',
+            },
+            resolve: {
+                _id: true,
+                title: true,
+                linkURL: true,
+                linkType: true,
+                thumbnailId: true,
+                articleId: true,
+            },
+        },
+        value: '$data',
+    },
+    otherLink: {
+        from: 'HUB',
+        request: {
+            model: 'com.hub365.marketingtoolkitadmin.models.ToolkitLink',
+            type: 'query',
+            query: 'ToolkitLinks',
+            arguments: {
+                articleId: '$data.document._id',
+                linkType: 'additional',
+            },
+            resolve: {
+                _id: true,
+                title: true,
+                linkURL: true,
+                linkType: true,
+                thumbnailId: true,
+                articleId: true,
+            },
+        },
+        value: '$data',
+    },
+    bookmark: {
+        from: 'HUB',
+        request: {
+            model: 'com.hub365.marketingtoolkit.models.JournalLikes',
+            type: 'query',
+            query: 'journalLikesByUser',
+            arguments: {
+                journalId: '$data.document._id',
+                creatorId: '$data.identity.sub',
+            },
+            resolve: {
+                _id: true,
+                journalId: true,
+            },
+        },
+        value: '$data',
+    },
+    allBookmarks: {
+        from: 'HUB',
+        request: {
+            model: 'com.hub365.marketingtoolkit.models.JournalLikes',
+            type: 'query',
+            query: 'journalLikes',
+            arguments: {
+                journalId: '$data.document._id',
+            },
+            resolve: {
+                _id: true,
+                journalId: true,
+            },
+        },
+        value: '$data',
+    },
+    associatedFiles: '$data.associatedFiles',
+    articleVideoId: '$data.articleVideoId',
+    articleVideoLink: '$data.articleVideoLink',
+    articleVideoType: '$data.articleVideoType',
+    likesCount: '$data.likesCount',
+    disciplines: '$data.disciplines',
+    createdAt: '$data.createdAt',
+    updatedAt: '$data.updatedAt',
+    flaggedById: '$data.flaggedById',
+    flaggedBy: {
+        from: 'HUB',
+        request: {
+            model: 'users',
+            type: 'query',
+            query: 'User',
+            arguments: {
+                userId: '$data.document.flaggedById',
+            },
+            resolve: {
+                _id: true,
+                name: true,
+                avatar: true,
+            },
+        },
+        value: '$data',
+    },
+    creator: {
+        from: 'HUB',
+        request: {
+            model: 'users',
+            type: 'query',
+            query: 'User',
+            arguments: {
+                userId: '$data.document.creatorId',
+            },
+            resolve: {
+                _id: true,
+                name: true,
+                avatar: true,
+            },
+        },
+        value: '$data',
+    },
+    updatedBy: {
+        from: 'HUB',
+        request: {
+            model: 'users',
+            type: 'query',
+            query: 'User',
+            arguments: {
+                userId: '$data.document.updatedById',
+            },
+            resolve: {
+                _id: true,
+                name: true,
+                avatar: true,
+            },
+        },
+        value: '$data',
+    },
+};

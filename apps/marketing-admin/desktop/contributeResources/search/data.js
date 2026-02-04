@@ -1,0 +1,41 @@
+module.exports = {
+    table: {
+        request: {
+            url: '`$data.app.settings.baseAPI.value`/graph',
+            withCredentials: true,
+            method: 'POST',
+            data: {
+                model: '$data.app.models.ContributeResources',
+                type: 'query',
+                query: 'ContributeResources',
+                arguments: {
+                    page: '$data.page',
+                    size: 20,
+                    query: '$data.query',
+                },
+                resolve: {
+                    _id: true,
+                    personId: true,
+                    personName: true,
+                    personEmail: true,
+                    studioId: true,
+                    office: true,
+                    description: true,
+                    resourceType: true,
+                    topic: true,
+                    relatedFiles: true,
+                    isDeleted: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    creator: true,
+                    updatedBy: true,
+                },
+            },
+        },
+        results: '$data.request.value.values',
+        page: '$data.request.value.page_info.page',
+        count: '$data.request.value.page_info.count',
+        totalCount: '$data.request.value.page_info.total_count',
+        totalPages: '$data.request.value.page_info.total_pages',
+    },
+};
